@@ -1,0 +1,24 @@
+version: 1.0.{build}
+image: Visual Studio 2022
+
+init:
+  - dotnet --info  
+  - dotnet --list-sdks
+
+before_build:
+  - echo "Starting build process..."
+
+
+build_script:
+  - dotnet restore NameSorter/NameSorter.csproj
+  - dotnet build NameSorter/NameSorter.csproj --configuration Release
+
+test_script:
+  - dotnet test NameSorter.Tests/NameSorter.Tests.csproj --configuration Release --no-build --verbosity normal
+
+artifacts:
+  - path: NameSorter\bin\Release\net8.0
+    name: NameSorterOutput
+
+after_build:
+  - echo "Build complete!"
