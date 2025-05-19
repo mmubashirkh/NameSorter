@@ -43,7 +43,7 @@ namespace NameSorter.Core.Services
 
                 if (names == null)
                 {
-                    _logger.LogError("FileWriter: Names collection is null.");
+                    _logger.LogError("FileWriter: Names collection is null.")
                     return false;
                 }
 
