@@ -1,9 +1,9 @@
-﻿using NameSorter.Core.Interfaces;
+﻿using NameSorter.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace NameSorter.Core.Services
+namespace NameSorter.Services
 {
     public class FileHandler : IFileHandler
     {
@@ -20,13 +20,7 @@ namespace NameSorter.Core.Services
                 throw new FileNotFoundException("Input file not found.", filePath);
             }
 
-            var lines = File.ReadAllLines(filePath);//.Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
-
-            if (!lines.Any())
-            {
-                _logger.LogWarning("Input file is empty: {Path}", filePath);
-                return new List<string>();
-            }
+            var lines = File.ReadAllLines(filePath);
 
             return lines;
         }
@@ -43,7 +37,7 @@ namespace NameSorter.Core.Services
 
                 if (names == null)
                 {
-                    _logger.LogError("FileWriter: Names collection is null.")
+                    _logger.LogError("FileWriter: Names collection is null.");
                     return false;
                 }
 

@@ -1,48 +1,45 @@
 ﻿using Microsoft.Extensions.Logging;
-using NameSorter.Core.Interfaces;
+using NameSorter.Interfaces;
 
 namespace NameSorter
 {
-    public class NameSorterApp
+    public class NameSortProcessor
     {
         private readonly IFileHandler _fileHandler;
         private readonly INameSplitter _nameSplitter;
         private readonly ISortNamesAlphabetically _nameSorter;
-        private readonly ILogger<NameSorterApp> _logger;
-        public NameSorterApp(
+        public NameSortProcessor(
             IFileHandler fileHandler,
             INameSplitter nameSplitter,
-            ISortNamesAlphabetically nameSorter,
-            ILogger<NameSorterApp> logger)
+            ISortNamesAlphabetically nameSorter
+            )
         {
             _fileHandler = fileHandler;
             _nameSplitter = nameSplitter;
             _nameSorter = nameSorter;
-            _logger = logger;
         }
 
-        public void Run(string filePath)
+        public void SortAndWriteNames(string inputFilePath, string outputFilePath)
         {
-            string outputFilePath = Path.Combine(Directory.GetCurrentDirectory(), "sorted-names-list.txt");
-
             try
             {
-                var names = _fileHandler.ReadNamesFromFile(filePath);
-                if (names == null || names.Count() == 0)
+
+                var names = _fileHandler.ReadNamesFromFile(inputFilePath);
+                if (names == null || !names.Any())
                 {
                     Console.WriteLine("No names found in the input file.");
                     return;
                 }
 
-                var splitedNames = _nameSplitter.SplitName(names);
-                if (splitedNames == null || splitedNames.Count() == 0)
+                var splitNames = _nameSplitter.SplitName(names);
+                if (splitNames == null || splitNames.Count == 0)
                 {
                     Console.WriteLine("Failed to split names.");
                     return;
                 }
 
-                var sortedNames = _nameSorter.SortNames(splitedNames);
-                if (sortedNames == null || sortedNames.Count() == 0)
+                var sortedNames = _nameSorter.SortNames(splitNames);
+                if (sortedNames == null || sortedNames.Count == 0)
                 {
                     Console.WriteLine("Failed to sort names.");
                     return;
@@ -56,8 +53,14 @@ namespace NameSorter
                 Console.WriteLine("------------------");
 
                 Console.WriteLine($"Writing sorted names to: {outputFilePath}");
-                _fileHandler.WriteNamesToFile(outputFilePath, sortedNames);
-                Console.WriteLine("Sorted names written to file successfully.");
+                if (_fileHandler.WriteNamesToFile(outputFilePath, sortedNames))
+                {
+                    Console.WriteLine("Sorted names written to file successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to write sorted names to file.");
+                }
             }
             catch (FileNotFoundException ex)
             {
@@ -65,7 +68,6 @@ namespace NameSorter
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred.");
                 Console.Error.WriteLine($"An unexpected error occurred: {ex.Message}");
             }
         }

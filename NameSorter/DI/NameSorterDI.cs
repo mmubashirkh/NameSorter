@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NameSorter.Core.Interfaces;
-using NameSorter.Core.Services;
+using NameSorter.Interfaces;
+using NameSorter.Services;
 
 namespace NameSorter.DI
 {
@@ -19,7 +19,7 @@ namespace NameSorter.DI
             services.AddSingleton<IFileHandler, FileHandler>();
             services.AddSingleton<INameSplitter, NameSplitter>();
             services.AddSingleton<ISortNamesAlphabetically, SortNamesAlphabetically>();
-            services.AddTransient<NameSorterApp>();
+            services.AddSingleton<NameSortProcessor>();
 
             return services.BuildServiceProvider();
         }

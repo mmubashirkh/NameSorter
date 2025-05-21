@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using NameSorter.Core.Interfaces;
-using NameSorter.Core.Models;
+using NameSorter.Interfaces;
+using NameSorter.Models;
 
-namespace NameSorter.Core.Services
+namespace NameSorter.Services
 {
     public class NameSplitter : INameSplitter
     {
@@ -22,7 +22,7 @@ namespace NameSorter.Core.Services
                 if (string.IsNullOrWhiteSpace(fullName))
                 {
                     _logger.LogWarning("NameSplitter: Input name is null or empty.");
-                    return null;
+                     continue;
                 }
 
                 string[] fullNameSplit = fullName.Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

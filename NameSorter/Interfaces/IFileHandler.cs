@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NameSorter.Core.Interfaces
+namespace NameSorter.Interfaces
 {
     public interface IFileHandler
     {

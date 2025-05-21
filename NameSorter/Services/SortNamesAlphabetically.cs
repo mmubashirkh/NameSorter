@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
-using NameSorter.Core.Interfaces;
-using NameSorter.Core.Models;
+using NameSorter.Interfaces;
+using NameSorter.Models;
 
-namespace NameSorter.Core.Services
+namespace NameSorter.Services
 {
     public class SortNamesAlphabetically : ISortNamesAlphabetically
     {
         public List<string> SortNames(IEnumerable<Name> nameParsedList)
         {
             return nameParsedList
-                .OrderBy(n => n.LastName)
-                .ThenBy(n => string.Join(" ", n.GivenNames))
-                .Select(n => n.ToString())
+                .OrderBy(x => x.LastName)
+                .ThenBy(x => string.Join(" ", x.GivenNames))
+                .Select(x => x.ToString())
                 .ToList();
         }
     }
