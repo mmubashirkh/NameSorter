@@ -12,9 +12,11 @@ before_build:
 build_script:
   - dotnet restore NameSorter/NameSorter.csproj
   - dotnet build NameSorter/NameSorter.csproj --configuration Release
+  - dotnet build NameSorter.Tests/NameSorter.Tests.csproj --configuration Release
 
 test_script:
   - dotnet test NameSorter.Tests/NameSorter.Tests.csproj --configuration Release --no-build --verbosity normal
+
 
 artifacts:
   - path: NameSorter\bin\Release\net8.0
