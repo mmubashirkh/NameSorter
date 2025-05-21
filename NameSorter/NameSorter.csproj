@@ -15,8 +15,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\NameSorter.Core\NameSorter.Core.csproj" />
-  </ItemGroup>
-
 </Project>
